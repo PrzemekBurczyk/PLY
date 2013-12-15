@@ -10,6 +10,9 @@ def addToClass(cls):
 
 class TreePrinter:
 
+    def indent(level):
+        return "| " * level
+
     @addToClass(AST.Node)
     def printTree(self, indent):
         raise Exception("printTree not defined in class " + self.__class__.__name__)
