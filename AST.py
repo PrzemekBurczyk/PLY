@@ -2,23 +2,6 @@ class Node(object):
     def __str__(self):
         return self.printTree()
         
-class Const(Node):
-    def __init__(self, type, value):
-        self.type = type
-        self.value = value
-        
-class Integer(Const):
-    def __init__(self, value):
-        Const.__init__(self, "int", value)
-        
-class Float(Const):
-    def __init__(self, value):
-        Const.__init__(self, "float", value)
-        
-class String(Const):
-    def __init__(self, value):
-        Const.__init__(self, "string", value)
-        
 class Variable(Node):
     def __init__(self, type, name, value):
         self.type = type
@@ -33,8 +16,11 @@ class Program(Node):
         
 class Declarations(Node):
     def __init__(self, declarations, declaration):
-        self.declarations = declarations
-        self.declaration = declaration
+        self.declarations = []
+        if declarations:
+            self.declarations.extend(declarations)
+        if declaration:
+            self.declarations.append(declaration)
         
 class Declaration(Node):
     def __init__(self, type, inits, error):
@@ -44,8 +30,11 @@ class Declaration(Node):
         
 class Inits(Node):
     def __init__(self, inits, init):
-        self.inits = inits
-        self.init = init
+        self.inits = []
+        if inits:
+            self.inits.extend(inits)
+        if init:
+            self.inits.append(init)
         
 class Init(Node):
     def __init__(self, id, expression):
@@ -54,8 +43,11 @@ class Init(Node):
         
 class Instructions(Node):
     def __init__(self, instructions, instruction):
-        self.instructions = instructions
-        self.instruction = instruction
+        self.instructions = []
+        if instructions:
+            self.instructions.extend(instructions)
+        if instruction:
+            self.instructions.append(instruction)
 
 class Instruction(Node):
     pass
@@ -116,11 +108,31 @@ class Compound(Instruction):
         self.declarations = declarations
         self.instructions = instructions
 
-class Expression(Node):
+class Condition(Node):
     pass
 
-class Condition(Expression):
+class Expression(Condition):
     pass
+
+class Const(Expression):
+    def __init__(self, value):
+        self.value = value
+
+class Id(Expression):
+    def __init__(self, id):
+        self.id = id
+
+#class Integer(Const):
+#    def __init__(self, value):
+#        Const.__init__(self, "int", value)
+        
+#class Float(Const):
+#    def __init__(self, value):
+#        Const.__init__(self, "float", value)
+        
+#class String(Const):
+#    def __init__(self, value):
+#        Const.__init__(self, "string", value)
 
 class BinExpr(Expression):
     def __init__(self, expr1, operator, expr2):
@@ -129,32 +141,46 @@ class BinExpr(Expression):
         self.expr2 = expr2
 
 class ExpressionInParentheses(Expression):
-    def __init__(self, expression):
+    def __init__(self, expression, error):
         self.expression = expression
+        self.error = error
 
 class IdWithParentheses(Expression):
-    def __init__(self, id, expression_list):
+    def __init__(self, id, expression_list, error):
         self.id = id
         self.expression_list = expression_list
+        self.error = error
 
 class ExpressionList(Node):
-    def __init__(self, expressions):
-        self.expressions = expressions
+    def __init__(self, expr_list, expression):
+        self.expressions = []
+        if expr_list:
+            self.expressions.extend(expr_list)
+        if expression:    
+            self.expressions.append(expression)
 
 class FunctionDefinitions(Node):
-    def __init__(self, fundefs):
-        self.fundefs = fundefs
+    def __init__(self, fundef, fundefs):
+        self.fundefs = []
+        if fundef:
+            self.fundefs.append(fundef)
+        if fundefs:
+            self.fundefs.extend(fundefs)
 
 class FunctionDefinition(Node):
     def __init__(self, type, id, arglist, compound_instr):
-        this.type = type
-        this.id = id
-        this.arglist = arglist
-        this.compound_instr = compound_instr
+        self.type = type
+        self.id = id
+        self.arglist = arglist
+        self.compound_instr = compound_instr
 
 class ArgumentList(Node):
-    def __init__(self, arguments):
-        this.arguments = arguments
+    def __init__(self, arg_list, arg):
+        self.arg_list = []
+        if arg_list:
+            self.arg_list.extend(arg_list)
+        if arg:
+            self.arg_list.append(arg)
 
 class Argument(Node):
     def __init__(self, type, id):
