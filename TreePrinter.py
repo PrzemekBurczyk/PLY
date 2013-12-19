@@ -25,17 +25,19 @@ class TreePrinter:
 
     @addToClass(AST.Declarations)
     def printTree(self, indent):
-        self.declarations.printTree(indent)
-        self.declaration.printTree(indent)
+        for declaration in self.declarations:
+            declaration.printTree(indent)
 
     @addToClass(AST.Declaration)
     def printTree(self, indent):
-        printIndented("DECL", indent)
-        self.inits.printTree(indent + 1)
+        if not self.error:
+            printIndented("DECL", indent)
+            self.inits.printTree(indent + 1)
 
-#    @addToClass(AST.Inits)
- #   def printTree(self, indent):
-  #      pass
+    @addToClass(AST.Inits)
+    def printTree(self, indent):
+        for init in self.inits:
+            init.printTree(indent)
     
     @addToClass(AST.Init)
     def printTree(self, indent):
@@ -43,17 +45,20 @@ class TreePrinter:
         self.id.printTree(indent + 1)
         self.expression.printTree(indent + 1)
 
-#    @addToClass(AST.Instructions)
- #   def printTree(self, indent):
-  #      pass
+    @addToClass(AST.Instructions)
+    def printTree(self, indent):
+        for instruction in self.instructions:
+            instruction.printTree(indent)
         
     @addToClass(AST.Print)
     def printTree(self, indent):
         printIndented("PRINT", indent)
         self.expression.printTree(indent + 1)
 
-#    @addToClass(AST.Labeled)
- #   def printTree(self, indent):
+    @addToClass(AST.Labeled)
+    def printTree(self, indent):
+        self.id.printTree(indent)
+        self.instruction.printTree(indent)
     
     @addToClass(AST.Assignment)
     def printTree(self, indent):
@@ -108,6 +113,14 @@ class TreePrinter:
         self.declarations.printTree(indent)
         self.instructions.printTree(indent)
 
+    @addToClass(AST.Const)
+    def printTree(self, indent):
+        printIndented(self.value, indent)
+
+    @addToClass(AST.Id)
+    def printTree(self, indent):
+        printIndented(self.id, indent)
+
     @addToClass(AST.BinExpr)
     def printTree(self, indent):
         printIndented(self.operator, indent)
@@ -123,5 +136,32 @@ class TreePrinter:
         self.id.printTree(indent + 1)
         self.expressions.printTree(indent + 1)
 
+    @addToClass(AST.ExpressionList)
+    def printTree(self, indent):
+        for expression in self.expressions:
+            expression.printTree(indent)
+    
+    @addToClass(AST.FunctionDefinitions)
+    def printTree(self, indent):
+        for function in self.functions:
+            function.printTree(indent)
+
+    @addToClass(AST.FunctionDefinition)
+    def printTree(self, indent):
+        printIndented("FUNDEF", indent)
+        self.id.printIndented(indent + 1)
+        printIndented("RET " + self.type, indent + 1)
+        self.arglist.printTree(indent + 1)
+        self.compound_instr.printTree(indent + 1)
+
+    @addToClass(AST.ArgumentList) 
+    def printTree(self, indent):
+        for argument in self.arg_list:
+            argument.printTree(indent)
+      
+    @addToClass(AST.Argument)
+    def printTree(self, indent):
+        printIndented("ARG " + self.id, indent)
+        
     # @addToClass ...
     # ...
