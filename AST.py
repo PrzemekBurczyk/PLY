@@ -18,7 +18,7 @@ class Declarations(Node):
     def __init__(self, declarations, declaration):
         self.declarations = []
         if declarations:
-            self.declarations.extend(declarations)
+            self.declarations.extend(declarations.declarations)
         if declaration:
             self.declarations.append(declaration)
         
@@ -32,7 +32,7 @@ class Inits(Node):
     def __init__(self, inits, init):
         self.inits = []
         if inits:
-            self.inits.extend(inits)
+            self.inits.extend(inits.inits)
         if init:
             self.inits.append(init)
         
@@ -45,7 +45,7 @@ class Instructions(Node):
     def __init__(self, instructions, instruction):
         self.instructions = []
         if instructions:
-            self.instructions.extend(instructions)
+            self.instructions.extend(instructions.instructions)
         if instruction:
             self.instructions.append(instruction)
 
@@ -76,7 +76,7 @@ class If(Node):
     def __init__(self, cond, statement, error):
         self.cond = cond
         self.statement = statement
-        self.error
+        self.error = error
         
 class Else(Node):
     def __init__(self, statement):
@@ -155,7 +155,7 @@ class ExpressionList(Node):
     def __init__(self, expr_list, expression):
         self.expressions = []
         if expr_list:
-            self.expressions.extend(expr_list)
+            self.expressions.extend(expr_list.expressions)
         if expression:    
             self.expressions.append(expression)
 
@@ -165,7 +165,7 @@ class FunctionDefinitions(Node):
         if fundef:
             self.fundefs.append(fundef)
         if fundefs:
-            self.fundefs.extend(fundefs)
+            self.fundefs.extend(fundefs.fundefs)
 
 class FunctionDefinition(Node):
     def __init__(self, type, id, arglist, compound_instr):
@@ -178,7 +178,7 @@ class ArgumentList(Node):
     def __init__(self, arg_list, arg):
         self.arg_list = []
         if arg_list:
-            self.arg_list.extend(arg_list)
+            self.arg_list.extend(arg_list.arg_list)
         if arg:
             self.arg_list.append(arg)
 
