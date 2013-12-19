@@ -11,7 +11,13 @@ if (m!=n) {
 }
 else
     res = m;
+    while(true) { 
+    	break; 
+    	return ala; 
+    	huj;
+    }
 
+print "ala";
 print res;
 return res;
 }

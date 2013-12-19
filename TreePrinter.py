@@ -108,11 +108,11 @@ class TreePrinter:
 
     @addToClass(AST.Continue)
     def printTree(self, indent):
-        TreePrinter.printIndented("CONTINUE")
+        TreePrinter.printIndented("CONTINUE", indent)
 
     @addToClass(AST.Break)
     def printTree(self, indent):
-        TreePrinter.printIndented("BREAK")
+        TreePrinter.printIndented("BREAK", indent)
 
     @addToClass(AST.Compound)
     def printTree(self, indent):

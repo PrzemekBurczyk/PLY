@@ -7,6 +7,7 @@ class Cparser(object):
     def __init__(self):
         self.scanner = Scanner()
         self.scanner.build()
+        self.error_occured = False
 
     tokens = Scanner.tokens
 
@@ -28,6 +29,7 @@ class Cparser(object):
 
 
     def p_error(self, p):
+        self.error_occured = True
         if p:
             print("Syntax error at line {0}, column {1}: LexToken({2}, '{3}')".format(p.lineno, self.scanner.find_tok_column(p), p.type, p.value))
         else:
@@ -39,7 +41,8 @@ class Cparser(object):
         """program : declarations fundefs instructions"""
         
         p[0] = AST.Program(p[1], p[2], p[3])
-        p[0].printTree(0)
+        if not self.error_occured:
+            p[0].printTree(0)
     
     def p_declarations(self, p):
         """declarations : declarations declaration
@@ -125,12 +128,12 @@ class Cparser(object):
                         | IF '(' error ')' instruction ELSE instruction """
 
         if isinstance(p[3], AST.Condition):
-            if p[6].lower() == "else":
+            if len(p) == 8 and p[6].lower() == "else":
                 p[0] = AST.Choice(AST.If(p[3], p[5], None), AST.Else(p[7]))
             else:
                 p[0] = AST.Choice(AST.If(p[3], p[5], None), None)
         else:
-            if p[6].lower() == "else":
+            if len(p) == 8 and p[6].lower() == "else":
                 p[0] = AST.Choice(AST.If(None, p[5], p[3]), AST.Else(p[7]))
             else:
                 p[0] = AST.Choice(AST.If(None, p[5], p[3]), None)
