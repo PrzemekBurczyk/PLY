@@ -113,8 +113,8 @@ class Break(Instruction):
 
 class Compound(Instruction):
     def __init__(self, declarations, instructions):
-        this.declarations = declarations
-        this.instructions = instructions
+        self.declarations = declarations
+        self.instructions = instructions
 
 class Expression(Node):
     pass

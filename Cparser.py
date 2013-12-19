@@ -61,7 +61,6 @@ class Cparser(object):
         """instructions : instructions instruction
                         | instruction """
     
-    
     def p_instruction(self, p):
         """instruction : print_instr
                        | labeled_instr
@@ -73,8 +72,7 @@ class Cparser(object):
                        | break_instr
                        | continue_instr
                        | compound_instr"""
-    
-    
+     
     def p_print_instr(self, p):
         """print_instr : PRINT expression ';'
                        | PRINT error ';' """
