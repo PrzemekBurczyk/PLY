@@ -38,6 +38,7 @@ class Cparser(object):
         """program : declarations fundefs instructions"""
         
         p[0] = AST.Program(p[1], p[2], p[3])
+        p[0].printTree(0)
     
     def p_declarations(self, p):
         """declarations : declarations declaration
@@ -203,12 +204,12 @@ class Cparser(object):
                       | ID '(' expr_list_or_empty ')'
                       | ID '(' error ')' """
     
-        if len(p) == 1:
+        if len(p) == 2:
             if type(p[1]) == AST.Const:
                 p[0] = p[1]
             else:
                 p[0] = AST.Id(p[1])
-        elif len(p) == 3:
+        elif len(p) == 4:
             if p[1] == "(":
                 if type(p[2]) == AST.Expression:
                     p[0] = AST.ExpressionInParentheses(p[2], None)
