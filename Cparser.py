@@ -1,5 +1,6 @@
 from scanner import Scanner
 import AST
+import TreePrinter
 
 class Cparser(object):
 
@@ -37,7 +38,8 @@ class Cparser(object):
     def p_program(self, p):
         """program : declarations fundefs instructions"""
         
-        p[0] = AST.Program(p[1], p[2], p[3])
+        root = AST.Program(p[1], p[2], p[3])
+        root.printTree(0)
     
     def p_declarations(self, p):
         """declarations : declarations declaration
@@ -45,6 +47,8 @@ class Cparser(object):
                         
         if len(p) > 1:
             p[0] = AST.Declarations(p[1], p[2])
+        else:
+            p[0] = AST.Declarations(None, None)
                      
     
     def p_declaration(self, p):
@@ -62,7 +66,7 @@ class Cparser(object):
                  | init """
 
         if len(p) > 2:
-            p[0] = AST.Inits(p[1], p[2])
+            p[0] = AST.Inits(p[1], p[3])
         else:
             p[0] = AST.Inits(None, p[1])
 
@@ -120,15 +124,20 @@ class Cparser(object):
                         | IF '(' error ')' instruction  %prec IFX
                         | IF '(' error ')' instruction ELSE instruction """
 
+        print type(p[3])
         if type(p[3]) == AST.Condition:
             if p[6] == "ELSE":
+                print "1"
                 p[0] = AST.Choice(AST.If(p[3], p[5], None), AST.Else(p[7]))
             else:
+                print "2"
                 p[0] = AST.Choice(AST.If(p[3], p[5], None), None)
         else:
             if p[6] == "ELSE":
+                print "3"
                 p[0] = AST.Choice(AST.If(None, p[5], p[3]), AST.Else(p[7]))
             else:
+                print "4"
                 p[0] = AST.Choice(AST.If(None, p[5], p[3]), None)
             
     def p_while_instr(self, p):
@@ -203,12 +212,12 @@ class Cparser(object):
                       | ID '(' expr_list_or_empty ')'
                       | ID '(' error ')' """
     
-        if len(p) == 1:
+        if len(p) == 2:
             if type(p[1]) == AST.Const:
                 p[0] = p[1]
             else:
                 p[0] = AST.Id(p[1])
-        elif len(p) == 3:
+        elif len(p) == 4:
             if p[1] == "(":
                 if type(p[2]) == AST.Expression:
                     p[0] = AST.ExpressionInParentheses(p[2], None)
@@ -271,5 +280,6 @@ class Cparser(object):
     
     def p_arg(self, p):
         """arg : TYPE ID """
+        
         p[0] = AST.Argument(p[1], p[2])
 
