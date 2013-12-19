@@ -62,13 +62,12 @@ class TreePrinter:
 
     @addToClass(AST.Labeled)
     def printTree(self, indent):
-        self.id.printTree(indent)
+        TreePrinter.printIndented(self.id + ":", indent)
         self.instruction.printTree(indent)
     
     @addToClass(AST.Assignment)
     def printTree(self, indent):
         TreePrinter.printIndented("=", indent)
-        #self.id.printTree(indent + 1)
         TreePrinter.printIndented(self.id, indent + 1)
         self.expression.printTree(indent + 1)
 
@@ -141,7 +140,6 @@ class TreePrinter:
     @addToClass(AST.IdWithParentheses)
     def printTree(self, indent):
         TreePrinter.printIndented("FUNCALL", indent)
-        #self.id.printTree(indent + 1)
         TreePrinter.printIndented(self.id, indent + 1)
         self.expression_list.printTree(indent + 1)
 
