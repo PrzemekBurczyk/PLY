@@ -88,7 +88,7 @@ class Scanner(object):
     
     t_AND = r"&&"
     
-    t_OR = r"||"
+    t_OR = r"\|\|"
 
     t_SHL = r"<<"
 
