@@ -8,17 +8,11 @@ def addToClass(cls):
     return decorator
 
 
-def printIndented(string, level):
-        print "| " * level + string
-
 class TreePrinter:
 
-<<<<<<< HEAD
-=======
     @classmethod
     def printIndented(cls, string, level):
         print "| " * level + string
->>>>>>> 246761f5dd0626d54d1ef00bdf89db969318f984
 
     @addToClass(AST.Node)
     def printTree(self, indent):
@@ -48,13 +42,8 @@ class TreePrinter:
     
     @addToClass(AST.Init)
     def printTree(self, indent):
-<<<<<<< HEAD
-        printIndented("=", indent)
-        printIndented(self.id, indent)
-=======
         TreePrinter.printIndented("=", indent)
         TreePrinter.printIndented(self.id, indent + 1)
->>>>>>> 246761f5dd0626d54d1ef00bdf89db969318f984
         self.expression.printTree(indent + 1)
         
     @addToClass(AST.Id)
@@ -79,13 +68,15 @@ class TreePrinter:
     @addToClass(AST.Assignment)
     def printTree(self, indent):
         TreePrinter.printIndented("=", indent)
-        self.id.printTree(indent + 1)
+        #self.id.printTree(indent + 1)
+        TreePrinter.printIndented(self.id, indent + 1)
         self.expression.printTree(indent + 1)
 
     @addToClass(AST.Choice)
     def printTree(self, indent):
         self._if.printTree(indent)
-        self._else.printTree(indent)
+        if self._else:
+            self._else.printTree(indent)
 
     @addToClass(AST.If)
     def printTree(self, indent):
@@ -149,8 +140,9 @@ class TreePrinter:
     @addToClass(AST.IdWithParentheses)
     def printTree(self, indent):
         TreePrinter.printIndented("FUNCALL", indent)
-        self.id.printTree(indent + 1)
-        self.expressions.printTree(indent + 1)
+        #self.id.printTree(indent + 1)
+        TreePrinter.printIndented(self.id, indent + 1)
+        self.expression_list.printTree(indent + 1)
 
     @addToClass(AST.ExpressionList)
     def printTree(self, indent):
@@ -164,15 +156,9 @@ class TreePrinter:
 
     @addToClass(AST.FunctionDefinition)
     def printTree(self, indent):
-<<<<<<< HEAD
-        printIndented("FUNDEF", indent)
-        printIndented(self.id, indent + 1)
-        printIndented("RET " + self.type, indent + 1)
-=======
         TreePrinter.printIndented("FUNDEF", indent)
-        self.id.printIndented(indent + 1)
+        TreePrinter.printIndented(self.id, indent + 1)
         TreePrinter.printIndented("RET " + self.type, indent + 1)
->>>>>>> 246761f5dd0626d54d1ef00bdf89db969318f984
         self.arglist.printTree(indent + 1)
         self.compound_instr.printTree(indent + 1)
 
