@@ -132,6 +132,7 @@ class TreePrinter:
     def printTree(self, indent):
         TreePrinter.printIndented(self.operator, indent)
         self.expr1.printTree(indent + 1)
+        self.expr2.printTree(indent + 1)
 
     @addToClass(AST.ExpressionInParentheses)
     def printTree(self, indent):

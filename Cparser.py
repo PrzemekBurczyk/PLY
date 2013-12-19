@@ -125,12 +125,12 @@ class Cparser(object):
                         | IF '(' error ')' instruction ELSE instruction """
 
         if isinstance(p[3], AST.Condition):
-            if p[6] == "ELSE":
+            if p[6].lower() == "else":
                 p[0] = AST.Choice(AST.If(p[3], p[5], None), AST.Else(p[7]))
             else:
                 p[0] = AST.Choice(AST.If(p[3], p[5], None), None)
         else:
-            if p[6] == "ELSE":
+            if p[6].lower() == "else":
                 p[0] = AST.Choice(AST.If(None, p[5], p[3]), AST.Else(p[7]))
             else:
                 p[0] = AST.Choice(AST.If(None, p[5], p[3]), None)
