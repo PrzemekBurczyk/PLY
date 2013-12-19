@@ -95,7 +95,6 @@ class Cparser(object):
     
         p[0] = p[1]
     
->>>>>>> resolve-conflict
     def p_print_instr(self, p):
         """print_instr : PRINT expression ';'
                        | PRINT error ';' """
