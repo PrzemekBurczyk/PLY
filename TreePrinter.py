@@ -99,7 +99,7 @@ class TreePrinter:
         TreePrinter.printIndented("REPEAT", indent)
         self.statement.printTree(indent + 1)
         TreePrinter.printIndented("UNTIL", indent)
-        self.condition.printTree(indent + 1) 
+        self.cond.printTree(indent + 1) 
 
     @addToClass(AST.Return)
     def printTree(self, indent):
