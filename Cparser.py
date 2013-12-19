@@ -38,8 +38,13 @@ class Cparser(object):
     def p_program(self, p):
         """program : declarations fundefs instructions"""
         
+<<<<<<< HEAD
         root = AST.Program(p[1], p[2], p[3])
         root.printTree(0)
+=======
+        p[0] = AST.Program(p[1], p[2], p[3])
+        p[0].printTree(0)
+>>>>>>> 246761f5dd0626d54d1ef00bdf89db969318f984
     
     def p_declarations(self, p):
         """declarations : declarations declaration

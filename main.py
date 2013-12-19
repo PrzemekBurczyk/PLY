@@ -1,7 +1,7 @@
 import sys
 import ply.yacc as yacc
 from Cparser import Cparser
-
+import TreePrinter
 
 if __name__ == '__main__':
 
