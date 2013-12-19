@@ -229,8 +229,11 @@ class Cparser(object):
     def p_expr_list_or_empty(self, p):
         """expr_list_or_empty : expr_list
                               | """
-                              
-        p[0] = AST.ExpressionList(None, None)
+        
+        if len(p) > 1:
+            p[0] = AST.ExpressionList(p[1], None)
+        else:                      
+            p[0] = AST.ExpressionList(None, None)
     
     def p_expr_list(self, p):
         """expr_list : expr_list ',' expression
