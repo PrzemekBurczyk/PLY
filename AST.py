@@ -122,17 +122,17 @@ class Id(Expression):
     def __init__(self, id):
         self.id = id
 
-class Integer(Const):
-    def __init__(self, value):
-        Const.__init__(self, "int", value)
+#class Integer(Const):
+#    def __init__(self, value):
+#        Const.__init__(self, "int", value)
         
-class Float(Const):
-    def __init__(self, value):
-        Const.__init__(self, "float", value)
+#class Float(Const):
+#    def __init__(self, value):
+#        Const.__init__(self, "float", value)
         
-class String(Const):
-    def __init__(self, value):
-        Const.__init__(self, "string", value)
+#class String(Const):
+#    def __init__(self, value):
+#        Const.__init__(self, "string", value)
 
 class BinExpr(Expression):
     def __init__(self, expr1, operator, expr2):
@@ -141,13 +141,15 @@ class BinExpr(Expression):
         self.expr2 = expr2
 
 class ExpressionInParentheses(Expression):
-    def __init__(self, expression):
+    def __init__(self, expression, error):
         self.expression = expression
+        self.error = error
 
 class IdWithParentheses(Expression):
-    def __init__(self, id, expression_list):
+    def __init__(self, id, expression_list, error):
         self.id = id
         self.expression_list = expression_list
+        self.error = error
 
 class ExpressionList(Node):
     def __init__(self, expr_list, expression):

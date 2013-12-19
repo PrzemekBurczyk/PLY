@@ -202,7 +202,24 @@ class Cparser(object):
                       | ID '(' expr_list_or_empty ')'
                       | ID '(' error ')' """
     
-            
+        if len(p) == 1:
+            if type(p[1]) == AST.Const:
+                p[0] = p[1]
+            else:
+                p[0] = AST.Id(p[1])
+        elif len(p) == 3:
+            if p[1] == "(":
+                if type(p[2]) == AST.Expression:
+                    p[0] = AST.ExpressionInParentheses(p[2], None)
+                else:
+                    p[0] = AST.ExpressionInParentheses(None, p[2])
+            else:
+                p[0] = AST.BinExpr(p[1], p[2], p[3])
+        else:
+            if type(p[3]) == AST.ExpressionList:
+                p[0] = AST.IdWithParentheses(p[1], p[3], None)
+            else:
+                p[0] = AST.IdWithParentheses(p[1], None, p[3])
     
     def p_expr_list_or_empty(self, p):
         """expr_list_or_empty : expr_list
